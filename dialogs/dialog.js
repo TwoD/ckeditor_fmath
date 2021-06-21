@@ -10,7 +10,7 @@ var dialog = CKEDITOR.dialog.add('FMathEditorDialog', function (editor) {
 				elements: [
 					{
 						type: 'html',
-						html: '<iframe id="editorIFrame" style="width:1024px;height:500px" src="' + CKEDITOR.basePath + 'plugins/FMathEditor/editor/onlyEditor.html"></iframe>'
+						html: '<iframe id="editorIFrame-' + editor.id + '" style="width:1024px;height:500px" src="' + CKEDITOR.plugins.getPath('FMathEditor') + 'editor/onlyEditor.html"></iframe>'
 					}
 				]
 			}
@@ -18,8 +18,8 @@ var dialog = CKEDITOR.dialog.add('FMathEditorDialog', function (editor) {
 		onOk: function () {
 			var dialog = this;
 
-			var mathml = document.getElementById('editorIFrame').contentWindow.getMathML();
-			document.getElementById('editorIFrame').contentWindow.getBlobOrUrl(function (result) {
+			var mathml = document.getElementById('editorIFrame-' + editor.id).contentWindow.getMathML();
+			document.getElementById('editorIFrame-' + editor.id).contentWindow.getBlobOrUrl(function (result) {
 				if (result.indexOf("ERROR:") == 0) {
 					alert(result);
 				}
@@ -56,7 +56,7 @@ var dialog = CKEDITOR.dialog.add('FMathEditorDialog', function (editor) {
 
 						var mathml = window.atob(mathmlEnc);
 						if (mathml.indexOf("<math") == 0) {
-							document.getElementById('editorIFrame').contentWindow.setMathML(mathml);
+							document.getElementById('editorIFrame-' + editor.id).contentWindow.setMathML(mathml);
 						}
 					}
 				}
@@ -65,4 +65,3 @@ var dialog = CKEDITOR.dialog.add('FMathEditorDialog', function (editor) {
 		}
 	};
 });
-
