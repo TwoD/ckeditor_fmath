@@ -1,11 +1,10 @@
-
 var fMathEditorsInterface = new FMATH.FMathJavascriptInterface();
 $.widget("fmath.mathEditor", {
 
-	options : {
-		width : 800,
-		height : 500,
-		defFormula : '<math><mrow><msub><mi>x</mi><mtext>12</mtext></msub><mo>=</mo><mfrac><mrow><mo>-</mo><mi>b</mi><mo>&plusmn;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>-</mo><mn>4</mn><mi>a</mi><mi>c</mi></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></mrow></math>',
+	options: {
+		width: 800,
+		height: 500,
+		defFormula: '<math><mrow><msub><mi>x</mi><mtext>12</mtext></msub><mo>=</mo><mfrac><mrow><mo>-</mo><mi>b</mi><mo>&plusmn;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>-</mo><mn>4</mn><mi>a</mi><mi>c</mi></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></mrow></math>',
 		imgPath: 'fmath/img',
 		imgFontPath: 'fmath/imgFonts',
 		basicIdent: "61,62,63,64,65,66,67,68,69,6a,6b,6c,6d,6e,6f,70,71,72,73,74,75,76,77,78,79,7a,3b1,3b2,3b3,3b4,3b5,3b6,3b7,3b8,3b9,3ba,3bb,3bc,3bd,3be,3bf,3c0,3c1,3c2,3c3,3c4,3c5,3c6,3c7,3c8,3c9",
@@ -21,36 +20,36 @@ $.widget("fmath.mathEditor", {
 		constantSymboles: "30,31,32,33,34,35,36,37,38,39,2148,3C0,1D486,3B3,3C6,39B,3B2,3BB,3C3,1D647,3A9,3BC,39A,3B8,3C1,3B1,1D641,3A8,3B4,221E"
 	},
 
-	_create : function() {
+	_create: function () {
 		this.editor = fMathEditorsInterface.buildEditor(this);
 	},
 
-	setMathML : function(mathml){
+	setMathML: function (mathml) {
 		this.editor.setMathML(mathml);
 	},
 
-	getMathML : function(type, prettyFormat){
+	getMathML: function (type, prettyFormat) {
 		return this.editor.getMathML(type, prettyFormat);
 	},
 
-	setLatex : function(latex){
+	setLatex: function (latex) {
 		this.editor.setLatex(latex);
 	},
 
-	getLatex : function(){
+	getLatex: function () {
 		return this.editor.getLatex();
 	},
 
-	getBlobOrUrl : function(returnFunc, type, prettyFormat){
+	getBlobOrUrl: function (returnFunc, type, prettyFormat) {
 		this.editor.getBlobOrUrl(returnFunc, type, prettyFormat);
 	},
-	getImage : function(type, encoderOptions ){
+	getImage: function (type, encoderOptions) {
 		return this.editor.getImage(type, encoderOptions);
 	},
-	setSaveCallback : function( saveCallbachFunction ){
+	setSaveCallback: function (saveCallbachFunction) {
 		return this.editor.setSaveCallback(saveCallbachFunction);
 	},
-	doResize : function( ){
+	doResize: function () {
 		return this.editor.resizeEditorCompleted();
 	}
 });
