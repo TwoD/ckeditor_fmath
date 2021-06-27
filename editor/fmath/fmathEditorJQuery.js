@@ -4,7 +4,7 @@ $.widget("fmath.mathEditor", {
 	options: {
 		width: 800,
 		height: 500,
-		defFormula: '<math><mrow><msub><mi>x</mi><mtext>12</mtext></msub><mo>=</mo><mfrac><mrow><mo>-</mo><mi>b</mi><mo>&plusmn;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>-</mo><mn>4</mn><mi>a</mi><mi>c</mi></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></mrow></math>',
+		defFormula: '<math><mtext>123</mtext></math>',
 		imgPath: 'fmath/img',
 		imgFontPath: 'fmath/imgFonts',
 		basicIdent: "61,62,63,64,65,66,67,68,69,6a,6b,6c,6d,6e,6f,70,71,72,73,74,75,76,77,78,79,7a,3b1,3b2,3b3,3b4,3b5,3b6,3b7,3b8,3b9,3ba,3bb,3bc,3bd,3be,3bf,3c0,3c1,3c2,3c3,3c4,3c5,3c6,3c7,3c8,3c9",
