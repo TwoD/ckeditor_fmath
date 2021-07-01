@@ -702,7 +702,7 @@ FMATH = (function () {
 		mO = mO.toLowerCase();
 		return mO == "true"
 	};
-	NumberUtils.toHex = function (number) {
+	NumberUtils.getHexCodeFromInt = function (number) {
 		return number.toString(16)
 	};
 	NumberUtils.zI = function (mN) {
@@ -4090,11 +4090,11 @@ FMATH = (function () {
 		var mP = new Nesting(0, mR);
 		var mT = mS.processBeans(mN, mP, mQ);
 		if (mO == fD) {
-			mT = HtmlUtils.AY(mT)
+			mT = HtmlUtils.convToEntities(mT)
 		}
 		else {
 			if (mO == fB) {
-				mT = HtmlUtils.AZ(mT)
+				mT = HtmlUtils.convToUnicode(mT)
 			}
 		}
 		return mT
@@ -6240,7 +6240,7 @@ FMATH = (function () {
 	 */
 	b3.firstCharAsHex = function (mN) {
 		var mO = mN.charCodeAt(0);
-		return b3.toHex(mO)
+		return b3.getHexCodeFromInt(mO)
 	};
 	/**
 	 * Convert to HEX.
@@ -6249,8 +6249,8 @@ FMATH = (function () {
 	 *
 	 * @return {string}
 	 */
-	b3.toHex = function (number) {
-		var mN = NumberUtils.toHex(number);
+	b3.getHexCodeFromInt = function (number) {
+		var mN = NumberUtils.getHexCodeFromInt(number);
 		mN = mN.toUpperCase();
 		return mN
 	};
@@ -6259,7 +6259,7 @@ FMATH = (function () {
 			return ""
 		}
 		var mO = text.charCodeAt(position);
-		return b3.toHex(mO)
+		return b3.getHexCodeFromInt(mO)
 	};
 
 	function bB() {
@@ -6355,7 +6355,7 @@ FMATH = (function () {
 			return ""
 		}
 		var mN = mP.charCodeAt(0);
-		var mO = NumberUtils.toHex(mN).toUpperCase();
+		var mO = NumberUtils.getHexCodeFromInt(mN).toUpperCase();
 		return bt.getCodeFromUnicodeValue(mO)
 	};
 	bt.getCodeFromUnicodeValue = function (mO) {
@@ -6390,7 +6390,7 @@ FMATH = (function () {
 			return false
 		}
 		var mN = mP.charCodeAt(0);
-		var mO = NumberUtils.toHex(mN).toUpperCase();
+		var mO = NumberUtils.getHexCodeFromInt(mN).toUpperCase();
 		if (("23DF" == mO) || ("FE38" == mO)) {
 			return true
 		}
@@ -6474,12 +6474,12 @@ FMATH = (function () {
 	function HtmlUtils() {
 	}
 
-	HtmlUtils.AT = function (mN) {
-		var mO = NumberUtils.toHex(mN).toUpperCase();
+	HtmlUtils.getCodesForNumber = function (mN) {
+		var mO = NumberUtils.getHexCodeFromInt(mN).toUpperCase();
 		return HtmlUtils.getCodesForUnicode(mO)
 	};
 	HtmlUtils.getFirstCodeForNumber = function (mN) {
-		var mO = HtmlUtils.AT(mN);
+		var mO = HtmlUtils.getCodesForNumber(mN);
 		if (mO.size() == 0) {
 			return ""
 		}
@@ -6523,7 +6523,7 @@ FMATH = (function () {
 		mN = HtmlUtils.collapsingWhitespace(mN);
 		return mN
 	};
-	HtmlUtils.AY = function (mS) {
+	HtmlUtils.convToEntities = function (mS) {
 		if (mS == null) {
 			return ""
 		}
@@ -6546,7 +6546,7 @@ FMATH = (function () {
 		}
 		return mR.toString()
 	};
-	HtmlUtils.AZ = function (mS) {
+	HtmlUtils.convToUnicode = function (mS) {
 		if (mS == null) {
 			return ""
 		}
@@ -18770,7 +18770,7 @@ FMATH = (function () {
 		if (text == null) {
 			return null
 		}
-		mN.addText(HtmlUtils.AZ(text));
+		mN.addText(HtmlUtils.convToUnicode(text));
 		return null
 	};
 	/**
@@ -19224,7 +19224,7 @@ FMATH = (function () {
 		if (this.linebreakAfter) {
 			mQ = mQ | 32
 		}
-		var mO = NumberUtils.toHex(mQ).toUpperCase();
+		var mO = NumberUtils.getHexCodeFromInt(mQ).toUpperCase();
 		if (mO.length < 2) {
 			mO = "0" + mO
 		}
@@ -24442,7 +24442,7 @@ FMATH = (function () {
 		if ("" == mR) {
 			return mP + "."
 		}
-		mR = HtmlUtils.AY(mR);
+		mR = HtmlUtils.convToEntities(mR);
 		var mQ = gM.split(",");
 		var mO = gL.split(",");
 		for (var mN = 0; mN < mO.length; mN++) {
@@ -26214,7 +26214,7 @@ FMATH = (function () {
 		var mO = new Text("");
 		aW.CX(mN);
 		bU.Fx(mN, mO, 0, mP, null);
-		return HtmlUtils.AY(mO.toString())
+		return HtmlUtils.convToEntities(mO.toString())
 	};
 	bU.Fx = function (mR, mS, mN, mQ, mP) {
 		if (mR == null || mR.vq() == null) {
@@ -36615,7 +36615,7 @@ FMATH = (function () {
 	a6.prototype.getIsMathml = function () {
 		return this.isMathml
 	};
-	a6.prototype.sX = function (mN) {
+	a6.prototype.setIsMathml = function (mN) {
 		this.isMathml = mN
 	};
 	a6.prototype.getValue = function () {
@@ -36632,7 +36632,7 @@ FMATH = (function () {
 		var mO = new a6();
 		var mR = hk.convertToMathML("$" + value + "$");
 		if (mR == null) {
-			mO.sX(false);
+			mO.setIsMathml(false);
 			mO.setValue(value);
 			return mO
 		}
@@ -36645,12 +36645,12 @@ FMATH = (function () {
 		for (var mQ = 0; mQ < mP.length; mQ++) {
 			var mN = mP[mQ];
 			if (mR.indexOf("<" + mN) > -1) {
-				mO.sX(true);
+				mO.setIsMathml(true);
 				mO.setValue(mR);
 				return mO
 			}
 		}
-		mO.sX(false);
+		mO.setIsMathml(false);
 		mO.setValue(value);
 		return mO
 	};
@@ -36845,7 +36845,7 @@ FMATH = (function () {
 		var mQ = new MathMLBean(mO);
 		mathml = h9.addSelectedAttribute(mathml);
 		mQ.setMathml(mathml);
-		if (mO && mO instanceof jQ && mO.getParent() && mathml.indexOf('<mrow') === 0 && mO.getChildren().size() == 1) {
+		if (mO && mO instanceof jQ && mO.getParent() && mO.getParent().getParent() && mathml.indexOf('<mrow') === 0 && mO.getChildren().size() == 1) {
 			// Fix for additional nested <mrow> tags when losing focus.
 			h9.replaceBeanWithBean(mO.getParent(), mQ);
 		}
@@ -42551,7 +42551,7 @@ FMATH = (function () {
 				var mR = NumberUtils.getIntFromHexCode(mV);
 				var mP = NumberUtils.getIntFromHexCode(mU);
 				for (var mQ = mR; mQ <= mP; mQ++) {
-					var mN = NumberUtils.toHex(mQ);
+					var mN = NumberUtils.getHexCodeFromInt(mQ);
 					mT.add(mN.toUpperCase())
 				}
 			}
@@ -44847,7 +44847,7 @@ FMATH = (function () {
 		var mQ = "";
 		for (var mO = 0; mO < mR.length; mO++) {
 			var mN = mR.charCodeAt(mO);
-			var mP = NumberUtils.toHex(mN);
+			var mP = NumberUtils.getHexCodeFromInt(mN);
 			if (mQ.length > 0) {
 				mQ = mQ + ","
 			}
@@ -44867,7 +44867,7 @@ FMATH = (function () {
 		var mQ = "space";
 		if (mP.length > 0) {
 			var mR = mP.charCodeAt(0);
-			mQ = b3.toHex(mR)
+			mQ = b3.getHexCodeFromInt(mR)
 		}
 		return mQ
 	};
@@ -46235,7 +46235,7 @@ FMATH = (function () {
 		var mQ = "";
 		for (var mO = 0; mO < mR.length; mO++) {
 			var mN = mR.charCodeAt(mO);
-			var mP = NumberUtils.toHex(mN);
+			var mP = NumberUtils.getHexCodeFromInt(mN);
 			if (mQ.length > 0) {
 				mQ = mQ + ","
 			}
@@ -46250,7 +46250,7 @@ FMATH = (function () {
 		var mP = "space";
 		if (mO.length > 0) {
 			var mQ = mO.charCodeAt(0);
-			mP = b3.toHex(mQ)
+			mP = b3.getHexCodeFromInt(mQ)
 		}
 		return mP
 	};
@@ -47578,7 +47578,7 @@ FMATH = (function () {
 		if (mX.length == 1) {
 			var mP = new hv("unicode", "prop_unicode.gif");
 			var mR = mX.charCodeAt(0);
-			var mS = NumberUtils.toHex(mR);
+			var mS = NumberUtils.getHexCodeFromInt(mR);
 			mS = mS.toUpperCase();
 			mP.setValue("0x" + mS);
 			mP.setType(cR);
