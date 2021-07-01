@@ -1,0 +1,8 @@
+@font-face {
+	font-family: 'MathJaxMathItalic';
+	font-style:normal;
+
+	src: local('?'),
+	url('MathJax_Math-Italic.woff') format('woff');
+}
+

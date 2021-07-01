@@ -1,0 +1,8 @@
+@font-face {
+	font-family: 'MathJaxMainRegular';
+	font-style:normal;
+
+	src: local('?'),
+	url('MathJax_Main-Regular.woff') format('woff');
+}
+
