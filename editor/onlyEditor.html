@@ -40,13 +40,13 @@
 
 	function clientSaveMethod(){
 		// get info from editor ex: get image
-		alert(e1.mathEditor("getMathML", "UNICODE", "true"));
+		alert(e1.mathEditor("getMathML", "ENTITIES", "true"));
 	}
 	function getMathML(){
-		return e1.mathEditor("getMathML", "UNICODE", "true");
+		return e1.mathEditor("getMathML", "ENTITIES", "true");
 	}
 	function getBlobOrUrl(returnFunc){
-		e1.mathEditor("getBlobOrUrl", returnFunc, "UNICODE", "true");
+		e1.mathEditor("getBlobOrUrl", returnFunc, "ENTITIES", "true");
 	}
 	function setMathML(mathml){
 		e1.mathEditor("setMathML", mathml);
