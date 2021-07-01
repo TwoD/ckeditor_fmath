@@ -1,4 +1,4 @@
-var dialog = CKEDITOR.dialog.add('FMathEditorDialog', function (editor) {
+CKEDITOR.dialog.add('FMathEditorDialog', function (editor) {
 	return {
 		title: 'FMath Editor - www.fmath.info',
 		minWidth: 1020,
@@ -46,6 +46,7 @@ var dialog = CKEDITOR.dialog.add('FMathEditorDialog', function (editor) {
 		},
 		onShow: function () {
 			var selection = editor.getSelection();
+			var mathml = null;
 			if (selection.getType() == CKEDITOR.SELECTION_ELEMENT) {
 				//var selectedContent = selection.getSelectedElement().$.outerHTML;
 				var selElem = selection.getSelectedElement();
@@ -54,13 +55,29 @@ var dialog = CKEDITOR.dialog.add('FMathEditorDialog', function (editor) {
 					if (mathmlEnc != null && mathmlEnc.length > 16) {
 						mathmlEnc = mathmlEnc.substring(16, mathmlEnc.length);
 
-						var mathml = window.atob(mathmlEnc);
-						if (mathml.indexOf("<math") == 0) {
-							document.getElementById('editorIFrame-' + editor.id).contentWindow.setMathML(mathml);
+						mathml = window.atob(mathmlEnc);
+						if (mathml.indexOf("<math") !== 0) {
+							mathml = null;
 						}
 					}
 				}
+			}
+			if (!mathml) {
+				mathml = '<math></math>';
+			}
 
+			var contentWindow = document.getElementById('editorIFrame-' + editor.id).contentWindow;
+			if (contentWindow.document.readyState === 'complete' || contentWindow.document.readyState === 'interactive') {
+				contentWindow.setMathML(mathml);
+			}
+			else {
+				var oldEvent = contentWindow.document.onreadystatechange;
+				contentWindow.document.onreadystatechange = function (e) {
+					if (oldEvent) {
+						oldEvent(e);
+					}
+					e.path[1].setMathML(mathml);
+				}
 			}
 		}
 	};

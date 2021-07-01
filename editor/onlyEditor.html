@@ -31,7 +31,11 @@
 
 <script>
 
-	var e1 = $( "#editor1" ).mathEditor({ width: 1000, height:400 });
+  var config = { width: 1000, height: 480, defFormula: '<math></math>'};
+  if (window.parent && window.parent.FMath_dialogConfig) {
+    $.extend(config, window.parent.FMath_dialogConfig);
+  }
+	var e1 = $( "#editor1" ).mathEditor(config);
 	e1.mathEditor("setSaveCallback", clientSaveMethod);
 
 	function clientSaveMethod(){
