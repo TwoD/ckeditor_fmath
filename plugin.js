@@ -1,10 +1,17 @@
 'use strict';
 
 ( function() {
+	function configFmath() {
+		if (!Object.prototype.hasOwnProperty.call(window, 'FMATH')) {
+			setTimeout(configFmath, 30);
+			return;
+		}
+		FMATH.ApplicationConfiguration.Ah( pluginPath + '/editor/fmath/fonts');
+		FMATH.ApplicationConfiguration.Aj(pluginPath  + '/editor/fmath/glyphs');
+		window.FMath_dialog_config = { folderUrlForFonts: pluginPath  + '/editor/fmath/fonts', folderUrlForGlyphs: pluginPath + '/FMathEditor/editor/fmath/glyphs' };
+	}
+	configFmath();
 	var pluginPath = CKEDITOR.plugins.getPath('FMathEditor');
-	FMATH.ApplicationConfiguration.Ah( pluginPath + '/editor/fmath/fonts');
-	FMATH.ApplicationConfiguration.Aj(pluginPath  + '/editor/fmath/glyphs');
-	window.FMath_dialog_config = { folderUrlForFonts: pluginPath  + '/editor/fmath/fonts', folderUrlForGlyphs: pluginPath + '/FMathEditor/editor/fmath/glyphs' };
 	var altPrefix = 'MathML (base64):';
 
 	CKEDITOR.plugins.add('FMathEditor', {
@@ -73,7 +80,17 @@
 		createFMathPlaceholder(editor, element) {
 			var formula = new FMATH.MathMLFormula();
 			var $dummyCanvas = jQuery('<canvas></canvas>');
-			var mathml = element.getOuterHtml();
+			// Get math markup and clean it up.
+			var mathml = element
+				.getOuterHtml()
+				// Mathml doesn't render ÅÄÖ chars that are alone in their tags.
+				// Merge these tags with the tag before.
+				.replace(/<\/mi><mi>(Å|Ä|Ö|å|ä|ö)<\/mi>/g, '$1</mi>')
+				// Encode multibyte characters the way mathml encodes them, ie two rounds of html entities.
+				.replace(/[\u0250-\ue007]/g, function (char) {
+					return '&amp;#' + char.charCodeAt(0) + ';';
+				});
+
 			formula.setFontSize(19);
 			formula.setFontBold(false);
 			formula.drawImage($dummyCanvas.get(0), mathml);
